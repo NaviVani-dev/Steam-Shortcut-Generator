@@ -39,7 +39,7 @@ watch(() => store.selectedItemId, ()=> {
 })
 
 const generateSteamappidFile = () => {
-  generateShortcut(store.selectedItemName, "steamappid", store.selectedItemId)
+  generateShortcut(store.selectedItemName, "steamappid", store.selectedItemId, "steamappid")
   store.openDialog = false
 }
   

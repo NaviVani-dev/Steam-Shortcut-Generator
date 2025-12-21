@@ -5,13 +5,18 @@ import { writeTextFile } from "@tauri-apps/plugin-fs";
 export const generateShortcut = async (
   filename: string,
   type: string,
-  gameid: string
+  gameid: string,
+  extension: "steamappid" | "localgameid"
 ) => {
   try {
     const content = `[${type}] ${gameid}`;
+    const filter =
+      extension === "steamappid"
+        ? { name: "Steam Game Shortcut", extensions: [".steamappid"] }
+        : { name: "Local Game Shortcut", extensions: [".localgameid"] };
     const path = await save({
-      filters: [{ name: "Steam Shortcut", extensions: [".steamappid"] }],
-      defaultPath: `${filename}.steamappid`,
+      filters: [filter],
+      defaultPath: `${filename}.${extension}`,
     });
     if (!path) return;
 

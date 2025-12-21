@@ -34,7 +34,7 @@ const gameId: Ref<string> = ref('')
 
 const generateLocalGameShortcut = () => {
   if (gameName.value === '' || gameId.value === '') return
-  generateShortcut(gameName.value, "localgameid", gameId.value)
+  generateShortcut(gameName.value, "localgameid", gameId.value, "localgameid")
 }
 
 </script>
