@@ -1,9 +1,9 @@
 <template>
   <button
     @click="openCreationDialog"
-    class="flex flex-row shrink-0 items-center gap-4 w-full h-20 max-h-20 bg-base-300 px-2 rounded-md transition-all duration-100 ease-in-out focus:scale-105 focus:outline-none"
+    class="flex flex-row shrink-0 items-center gap-4 w-full h-20 max-h-20 bg-base-300 px-2 rounded-xl transition-all duration-100 ease-in-out focus:scale-105 focus:outline-none"
    >
-    <img .src="gameImg" class="h-14 w-38 object-cover rounded-sm" />
+    <img .src="gameImg" class="h-14 w-38 object-cover rounded-lg border border-base-content/20" />
     <p class="text-lg truncate">{{gameName}}</p>
   </button>
 </template>
@@ -17,10 +17,8 @@
     gameImg: String
   });
   const openCreationDialog = () => {
-    const modal = document.getElementById("createDialog") as HTMLDialogElement
-    if (modal === null) return
+    store.openDialog = true
     store.selectedItemId = props.gameId!
     store.selectedItemName = props.gameName!
-    modal.showModal()
   }
 </script>

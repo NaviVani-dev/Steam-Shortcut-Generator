@@ -1,37 +1,38 @@
 @import "tailwindcss";
-@plugin "daisyui";
 
-@plugin "daisyui/theme" {
-  name: "multiscope";
-  default: true;
-  prefersdark: true;
-  color-scheme: "dark";
-  --color-base-100: oklch(14% 0 0);
-  --color-base-200: oklch(20% 0 0);
-  --color-base-300: oklch(26% 0 0);
-  --color-base-content: oklch(98% 0 0);
-  --color-primary: oklch(62% 0.214 259.815);
-  --color-primary-content: oklch(97% 0.014 254.604);
-  --color-secondary: oklch(58% 0.233 277.117);
-  --color-secondary-content: oklch(96% 0.018 272.314);
-  --color-accent: oklch(62% 0.214 259.815);
-  --color-accent-content: oklch(97% 0.014 254.604);
-  --color-neutral: oklch(26% 0.007 34.298);
-  --color-neutral-content: oklch(98% 0.001 106.423);
-  --color-info: oklch(62% 0.214 259.815);
-  --color-info-content: oklch(97% 0.014 254.604);
-  --color-success: oklch(76% 0.177 163.223);
-  --color-success-content: oklch(97% 0.021 166.113);
-  --color-warning: oklch(82% 0.189 84.429);
-  --color-warning-content: oklch(98% 0.022 95.277);
-  --color-error: oklch(71% 0.194 13.428);
-  --color-error-content: oklch(96% 0.015 12.422);
-  --radius-selector: 2rem;
-  --radius-field: 0.5rem;
-  --radius-box: 0.5rem;
-  --size-selector: 0.28125rem;
-  --size-field: 0.25rem;
+@theme {
+  --color-base-100: #111111;
+  --color-base-200: #161616;
+  --color-base-300: #242424;
+  --color-base-content: #f8f8f8;
+  --color-primary: #2a7eff;
+  --color-primary-content: #eff6ff;
+  --color-secondary: #605dff;
+  --color-secondary-content: #edf1fe;
+  --color-accent: #2a7eff;
+  --color-accent-content: #eff6ff;
+  --color-neutral: #272322;
+  --color-neutral-content: #f8f8f8;
+  --color-info: #2a7eff;
+  --color-info-content: #eff6ff;
+  --color-success: #00d390;
+  --color-success-content: #e9faf2;
+  --color-warning: #fcb700;
+  --color-warning-content: #fdf9e8;
+  --color-error: #ff637d;
+  --color-error-content: #fceeef;
+  --radius-selector: 32px;
+  --radius-field: 8px;
+  --radius-box: 8px;
+  --size-selector: 4.5px;
+  --size-field: 4px;
   --border: 1px;
-  --depth: 0;
-  --noise: 0;
+}
+
+:root {
+  @apply text-base-content bg-base-100
+}
+
+.anim-all {
+  @apply transition-all duration-150 ease-in-out
 }

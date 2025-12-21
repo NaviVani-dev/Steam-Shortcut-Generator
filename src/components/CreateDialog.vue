@@ -1,38 +1,23 @@
 <template>
-  <dialog id="createDialog" class="modal">
-    <div class="modal-box">
-      <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"><X/></button>
-      </form>
-      <a :href="`https://store.steampowered.com/app/${store.selectedItemId}`" class="text-lg font-bold">{{ store.selectedItemName }}</a>
+  <dialog v-if="store.openDialog" class="fixed inset-0 w-full h-full bg-black/50 flex items-center justify-center">
+    <div class="bg-base-200 text-base-content w-screen h-min max-w-142 max-h-112 rounded-xl border border-base-content/20 p-6 relative">
+      <button @click="store.openDialog = false" class="absolute right-6 top-6 w-4 h-4 focus:outline-0"><X/></button>
+      <a class="text-lg font-bold">{{ store.selectedItemName }}</a>
       <p v-if="gameData !== undefined" class="text-xs text-base-content/50 pb-2">{{ gameData.strDescription }}</p>
-      <div v-if="gameData !== undefined" class="carousel w-full rounded-md">
-        <div 
-          :id="'preview'+index.toString()"
-          v-for="screenshot,index in gameData.rgScreenshots"
-          :key="index"
-          class="carousel-item relative w-full items-center justify-center"
-        >
-          <img :src="imagesBaseUrl + store.selectedItemId + '/' + screenshot.filename" class="w-auto h-[60vh] max-h-44 object-cover" />
-          <div v-if="gameData.rgScreenshots.length > 1" class="absolute left-4 right-4 top-1/2 flex -translate-y-1/2 transform justify-between">
-            <a 
-              :href="'#preview' + (index === 0 ? gameData.rgScreenshots.length - 1 : index - 1)" 
-              class="btn btn-circle "
-            ><ChevronLeft/></a>
-
-            <a 
-              :href="'#preview' + (index === gameData.rgScreenshots.length - 1 ? 0 : index + 1)" 
-              class="btn btn-circle"
-            ><ChevronRight/></a>
-          </div>
-        </div>
+      <div v-if="gameData !== undefined" class="flex flex-row gap-2 w-full rounded-md overflow-x-scroll px-4 pb-4">
+          <img
+            v-for="screenshot,index in gameData.rgScreenshots"
+            :key="index"
+            :src="imagesBaseUrl + store.selectedItemId + '/' + screenshot.filename"
+            class="w-auto h-[60vh] max-h-44 object-cover rounded-xl border border-base-content/20"
+          />
       </div>
 
-      <div v-if="gameData === undefined" class="skeleton w-full h-3 mt-1" />
-      <div v-if="gameData === undefined" class="skeleton w-full h-3 my-1" />
-      <div v-if="gameData === undefined" class="skeleton w-full h-44 mb-2" />
+      <div v-if="gameData === undefined" class="animate-pulse bg-base-300 rounded-xl w-full h-3 mt-1" />
+      <div v-if="gameData === undefined" class="animate-pulse bg-base-300 rounded-xl w-full h-3 my-1" />
+      <div v-if="gameData === undefined" class="animate-pulse bg-base-300 rounded-xl w-full h-42 mb-2" />
 
-      <button @click="generateSteamappidFile" class="btn btn-accent w-full">Create shortcut</button>
+      <button @click="generateSteamappidFile" class="bg-accent py-2 rounded-xl w-full focus:outline-0 mt-2">Create shortcut</button>
     </div>
   </dialog>
 </template>
@@ -41,7 +26,7 @@
 import { selectedStore } from '../states/SelectedGame';
 import { fetch } from "@tauri-apps/plugin-http";
 import {ref, Ref, watch} from 'vue'
-import {ChevronLeft, ChevronRight, X} from 'lucide-vue-next'
+import {X} from 'lucide-vue-next'
 import { generateShortcut } from '../utils/GenerateShortcut'
 import { SteamGameDetails } from '../types/GameDetails';
 
@@ -55,8 +40,7 @@ watch(() => store.selectedItemId, ()=> {
 
 const generateSteamappidFile = () => {
   generateShortcut(store.selectedItemName, "steamappid", store.selectedItemId)
-  const modal = document.getElementById('createDialog') as HTMLDialogElement
-  modal.close()
+  store.openDialog = false
 }
   
 const fetchGameData = async () => {

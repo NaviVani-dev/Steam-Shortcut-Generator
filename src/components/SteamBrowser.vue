@@ -9,7 +9,7 @@ import { SteamSearchResult } from "../types/SearchResults";
 const searchTerm: Ref<string> = ref("")
 const searchResults: Ref<SteamSearchResult[]> = ref([])
 const isSearching = ref(false)
-const errorState = ref(true)
+const errorState = ref(false)
 const searchTimeout = 1000
 //@ts-ignore
 let timeout = null
@@ -27,6 +27,12 @@ watch(searchTerm, ()=> {
     fetchSearchResults()
   }, searchTimeout)
 })
+
+const enterFetch = () => {
+  //@ts-ignore
+  clearTimeout(timeout)
+  fetchSearchResults()
+}
 
 const fetchSearchResults = async () => {
   try {
@@ -53,11 +59,11 @@ const fetchSearchResults = async () => {
 
 <template>
   <main class="flex h-full w-full flex-col gap-2 items-center">
-    <label class="input w-full max-w-132 transition-all duration-100 ease-in-out">
+    <label class="w-full max-w-132 transition-all duration-100 ease-in-out flex flex-row border border-base-content/20 px-4 py-3 rounded-xl bg-base-200 gap-2">
       <Search class="opacity-50" />
-      <input v-model="searchTerm" type="search" class="grow" placeholder="Search for a Steam game..."/>
+      <input @keyup.enter="enterFetch" v-model="searchTerm" type="search" class="grow focus:outline-none" placeholder="Search for a Steam game..."/>
     </label>
-    <div class="w-full max-w-132 flex flex-col flex-1 gap-2 overflow-y-scroll overflow-x-hidden bg-base-200 p-2 rounded-md border border-base-content/20">
+    <div class="w-full max-w-132 flex flex-col flex-1 gap-2 overflow-y-scroll overflow-x-hidden bg-base-200 p-2 rounded-xl border border-base-content/20">
       <SearchResult v-for="result in searchResults" :gameName="result.name" :gameImg="result.small_cap" :gameId="result.id" :key="result.id" />
       <div class="flex grow flex-col items-center justify-center opacity-30" v-if="searchResults.length === 0 && !isSearching">
         <Gamepad2 :size="112"/>
@@ -67,7 +73,7 @@ const fetchSearchResults = async () => {
         <Bug :size="112"/>
         <p class="text-center">An error ocurred! Maybe try again later...</p>
       </div>
-      <div class="skeleton h-20 w-full shrink-0" v-for="_i in 5" v-if="isSearching" />
+      <div class="animate-pulse bg-base-300 rounded-xl h-20 w-full shrink-0" v-for="_i in 5" v-if="isSearching" />
     </div>
     <CreateDialog />
   </main>
