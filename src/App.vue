@@ -75,7 +75,7 @@ const store = mainStore()
     </div>
     <p class="text-xs text-base-content/30 truncate">Made by <a @click="openUrl('https://github.com/NaviVani-dev')" class="underline">NaviVani</a> for the emulation community :D</p>
   </main>
-  <Toaster position="bottom-center" theme="dark" closeButtonPosition="top-right" />
+  <Toaster position="top-center" richColors closeButtonPosition="top-right" />
 </TooltipProvider>
 </template>
 

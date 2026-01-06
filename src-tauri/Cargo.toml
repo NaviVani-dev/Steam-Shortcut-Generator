@@ -1,9 +1,9 @@
 [package]
 name = "steam-shortcut-generator"
-version = "1.1.0"
+version = "1.1.1"
 description = "App that generates Steam shortcuts for Android Frontends "
 authors = ["NaviVani"]
-edition = "2026"
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

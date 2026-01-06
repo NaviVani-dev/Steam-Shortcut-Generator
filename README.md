@@ -12,7 +12,6 @@ You can grab the latest release from the [Releases page](https://github.com/Navi
 
 ## Usage
 Steam Shortcut Generator allows you to search for your Steam games to create a shortcut or just typing your game ID for Local Games.
-It also includes a manual editor with templates in case you want to make your own shortcuts for other games, even if they are not from Steam!
 
 ### Steam Games
 - Tap on the Searchbar and type your desired Steam game.

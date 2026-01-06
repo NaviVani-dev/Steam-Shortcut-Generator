@@ -1,6 +1,6 @@
 <template>
   <main class="flex h-full w-full flex-col items-center justify-center">
-    <div class="w-full max-w-182 flex flex-col gap-2 p-6 bg-base-200 rounded-xl border border-base-content/20 relative">
+    <div class="w-full max-w-182 flex flex-col gap-2 p-6 bg-base-200 rounded-xl border border-base-content/20 relative overflow-x-scroll">
 
       <DropdownMenuRoot>
         <DropdownMenuTrigger class="absolute top-2 right-2 px-2 py-1 rounded-lg text-xs border border-base-content/20 bg-base-200 hover:bg-base-300 flex flex-row items-center gap-1 anim-all cursor-pointer">
@@ -33,7 +33,7 @@
 
     <div class="w-full flex flex-col shrink-0 gap-1.5">
       <p class="text-sm">Content:</p>
-      <textarea v-model="content" class="font-mono placeholder:font-sans text-xs whitespace-pre overflow-y-auto anim-all border border-base-content/20 px-4 py-3 rounded-xl h-42 resize-none" placeholder="The contents of your shortcut!" />
+      <textarea v-model="content" class="font-mono placeholder:font-sans text-xs whitespace-pre overflow-y-auto anim-all border border-base-content/20 px-4 py-3 rounded-xl h-36 resize-none" placeholder="The contents of your shortcut!" />
     </div>
 
     <div class="flex flex-row gap-2 items-center justify-center mt-2">

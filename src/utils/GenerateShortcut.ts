@@ -23,13 +23,15 @@ export const generateShortcut = async (filename: string, content: string, path?:
         const uri = await AndroidFs.createNewFile(path!, filename, null)
         const file = await AndroidFs.getFsPath(uri)
         await writeTextFile(file,content)
+        await writeTextFile(file,content)
       } else {
         if (typeof path != "string") return
         const file = await p.join(path, filename)
         await writeTextFile(file, content)
+        await writeTextFile(file,content)
       }
     }
-
+    // double writeTextFile go!!!!
     toast.success("Shortcut generated succesfully!");
     libraryStore().refreshLibrary()
     return true
