@@ -8,19 +8,37 @@
   "permissions": [
     "core:default",
     "opener:default",
-    {
-      "identifier": "http:default",
-      "allow": [
-        {
-          "url": "https://store.steampowered.com"
-        }
-      ]
-    },
     "fs:default",
+    "dialog:default",
+    "android-fs:all",
+    "os:default",
     {
-      "identifier": "fs:write-files",
+      "identifier": "opener:allow-open-path",
       "allow": [{ "path": "**" }]
     },
-    "dialog:default"
+    {
+      "identifier": "http:default",
+      "allow": [{"url": "https://store.steampowered.com"}]
+    },
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [{ "path": "$APPCONFIG" }, { "path": "$APPCONFIG/*" }]
+    },
+    {
+      "identifier": "fs:allow-mkdir",
+      "allow": [{ "path": "$APPCONFIG" }, { "path": "$APPCONFIG/*" }]
+    },
+    {
+      "identifier": "fs:allow-read-text-file",
+      "allow": [{ "path": "**" }, {"path": "$APPCONFIG/*"}]
+    },
+    {
+      "identifier": "fs:allow-read-dir",
+      "allow": [{ "path": "**" }]
+    },
+    {
+      "identifier": "fs:write-files",
+      "allow": [{"path": "**"}, {"path": "$APPCONFIG/*"}]
+    }
   ]
 }

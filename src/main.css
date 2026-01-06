@@ -29,10 +29,42 @@
   --border: 1px;
 }
 
+[data-theme="light"] {
+  --color-base-100: #ffffff;
+  --color-base-200: #FAFAFA;
+  --color-base-300: #F2F2F2;
+  --color-base-content: #000;
+  --color-primary: #2a7eff;
+  --color-primary-content: #f8f8f8;
+  --color-secondary: #605dff;
+  --color-secondary-content: #f8f8f8;
+  --color-accent: #2a7eff;
+  --color-accent-content: #f8f8f8;
+  --color-neutral: #F8F8F8;
+  --color-neutral-content: #000;
+  --color-info: #2a7eff;
+  --color-info-content: #eff6ff;
+  --color-success: #00d390;
+  --color-success-content: #e9faf2;
+  --color-warning: #fcb700;
+  --color-warning-content: #fdf9e8;
+  --color-error: #ff637d;
+  --color-error-content: #fceeef;
+  --radius-selector: 32px;
+  --radius-field: 8px;
+  --radius-box: 8px;
+  --size-selector: 4.5px;
+  --size-field: 4px;
+  --border: 1px;
+}
+
 :root {
   @apply text-base-content bg-base-100
 }
+* {
+  @apply focus:outline-none select-none
+}
 
 .anim-all {
-  @apply transition-all duration-150 ease-in-out
+  @apply transition-all duration-150 ease-out
 }

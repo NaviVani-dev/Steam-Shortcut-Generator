@@ -1,38 +1,17 @@
 <script setup lang="ts">
-import { Ref, ref, watch } from "vue";
+import { Ref, ref } from "vue";
 import { Search, Gamepad2, Bug } from "lucide-vue-next"
 import { fetch } from "@tauri-apps/plugin-http";
-import SearchResult from "./SearchResult.vue";
-import CreateDialog from "./CreateDialog.vue";
-import { SteamSearchResult } from "../types/SearchResults";
+import SearchResult from "~/components/browser/SearchResult.vue";
+import CreateDialog from "~/components/browser/CreateShortcut.vue";
+import { SteamSearchResult } from "~/types/SearchResults";
+import { libraryStore } from "~/states/Library";
 
 const searchTerm: Ref<string> = ref("")
 const searchResults: Ref<SteamSearchResult[]> = ref([])
 const isSearching = ref(false)
 const errorState = ref(false)
-const searchTimeout = 1000
-//@ts-ignore
-let timeout = null
-
-watch(searchTerm, ()=> {
-  if (searchTerm.value === "") {
-    searchResults.value = []
-    return
-  }
-
-  //@ts-ignore just shut up jesus
-  clearTimeout(timeout)
-
-  timeout = setTimeout(()=> {
-    fetchSearchResults()
-  }, searchTimeout)
-})
-
-const enterFetch = () => {
-  //@ts-ignore
-  clearTimeout(timeout)
-  fetchSearchResults()
-}
+const lib = libraryStore()
 
 const fetchSearchResults = async () => {
   try {
@@ -59,12 +38,19 @@ const fetchSearchResults = async () => {
 
 <template>
   <main class="flex h-full w-full flex-col gap-2 items-center">
-    <label class="w-full max-w-132 transition-all duration-100 ease-in-out flex flex-row border border-base-content/20 px-4 py-3 rounded-xl bg-base-200 gap-2">
-      <Search class="opacity-50" />
-      <input @keyup.enter="enterFetch" v-model="searchTerm" type="search" class="grow focus:outline-none" placeholder="Search for a Steam game..."/>
-    </label>
-    <div class="w-full max-w-132 flex flex-col flex-1 gap-2 overflow-y-scroll overflow-x-hidden bg-base-200 p-2 rounded-xl border border-base-content/20">
-      <SearchResult v-for="result in searchResults" :gameName="result.name" :gameImg="result.small_cap" :gameId="result.id" :key="result.id" />
+    <div class="w-full max-w-182 flex flex-col flex-1 gap-2 overflow-y-scroll overflow-x-hidden bg-base-200 p-2 rounded-xl border border-base-content/20">
+      <label class="w-full transition-all duration-100 ease-in-out flex flex-row border border-base-content/20 px-4 bg-base-200 py-3 rounded-xl gap-2 sticky top-0">
+        <Search class="opacity-50" />
+        <input @keyup.enter="fetchSearchResults" v-model="searchTerm" type="search" class="grow focus:outline-none" placeholder="Search for a Steam game..."/>
+      </label>
+      <SearchResult
+        v-for="result in searchResults"
+        :gameName="result.name"
+        :gameImg="result.small_cap"
+        :gameId="result.id"
+        :isOnLibrary="lib.library && lib.library.some(shortcut=>shortcut.id == result.id)"
+        :key="result.id"
+      />
       <div class="flex grow flex-col items-center justify-center opacity-30" v-if="searchResults.length === 0 && !isSearching">
         <Gamepad2 :size="112"/>
         <p class="text-center">Search for a game to create a shortcut for your frontend!</p>

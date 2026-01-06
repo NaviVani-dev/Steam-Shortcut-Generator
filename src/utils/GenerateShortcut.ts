@@ -1,32 +1,57 @@
 import { save } from "@tauri-apps/plugin-dialog";
 import { toast } from "vue-sonner";
-import { writeTextFile } from "@tauri-apps/plugin-fs";
+import { writeTextFile, remove } from "@tauri-apps/plugin-fs";
+import { platform } from "@tauri-apps/plugin-os";
+import { AndroidFs, AndroidFsUri } from "tauri-plugin-android-fs-api";
+import { path as p } from "@tauri-apps/api";
+import { libraryStore } from "~/states/Library";
 
-export const generateShortcut = async (
-  filename: string,
-  type: string,
-  gameid: string,
-  extension: "steamappid" | "localgameid"
-) => {
+export const generateShortcut = async (filename: string, content: string, path?: string | AndroidFsUri) => {
   try {
-    const content = `[${type}] ${gameid}`;
-    const filter =
-      extension === "steamappid"
-        ? { name: "Steam Game Shortcut", extensions: [".steamappid"] }
-        : { name: "Local Game Shortcut", extensions: [".localgameid"] };
-    const path = await save({
-      filters: [filter],
-      defaultPath: `${filename}.${extension}`,
-    });
-    if (!path) return;
-
-    // idk why, but sometimes the file will be empty only the 1st time, hopefully this will fix it
-    await writeTextFile(path, content);
-    await writeTextFile(path, content);
+    if (!path) {
+      //if theres no path set, it will default to the old code
+      const path = await save({
+        filters: [{ name: "Game Shortcut", extensions: ['.steam', 'steamappid', '.localgameid']}],
+        defaultPath: filename,
+      });
+      if (!path) return false;
+      await writeTextFile(path, content);
+      await writeTextFile(path, content);
+    } else{
+      if (platform() == "android") {
+        if (typeof path == "string") return
+        const uri = await AndroidFs.createNewFile(path!, filename, null)
+        const file = await AndroidFs.getFsPath(uri)
+        await writeTextFile(file,content)
+      } else {
+        if (typeof path != "string") return
+        const file = await p.join(path, filename)
+        await writeTextFile(file, content)
+      }
+    }
 
     toast.success("Shortcut generated succesfully!");
+    libraryStore().refreshLibrary()
+    return true
   } catch (e) {
     console.error(e);
     toast.error("An error ocurred, try again later...");
+    return false
   }
 };
+
+export const deleteShortcut = async (filepath: string | AndroidFsUri) => {
+  try{
+    if (platform() == "android") {
+      if (typeof filepath == "string") return
+      await AndroidFs.removeFile(filepath)
+    } else {
+      if (typeof filepath !== "string") return
+      await remove(filepath)
+    }
+    toast.error("Shortcut deleted succesfully")
+    libraryStore().refreshLibrary()
+  } catch(e) {
+    console.log(e)
+  }
+}

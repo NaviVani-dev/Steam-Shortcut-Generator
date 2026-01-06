@@ -1,9 +1,9 @@
 [package]
 name = "steam-shortcut-generator"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-edition = "2021"
+version = "1.1.0"
+description = "App that generates Steam shortcuts for Android Frontends "
+authors = ["NaviVani"]
+edition = "2026"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -25,4 +25,5 @@ serde_json = "1"
 tauri-plugin-http = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-dialog = "2"
-
+tauri-plugin-android-fs = { version = "24", features = ["legacy_storage_permission"] }
+tauri-plugin-os = "2"
