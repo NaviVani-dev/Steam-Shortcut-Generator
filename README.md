@@ -36,3 +36,8 @@ bun tauri build
 # For an Android build
 bun tauri build android
 ```
+
+## ☕ Support Me
+If you enjoy this project and you have an extra buck, please consider donating to my Ko-Fi!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/navivani_dev)
