@@ -15,6 +15,7 @@
         "pinia": "^3.0.4",
         "reka-ui": "^2.7.0",
         "tauri-plugin-android-fs-api": "^24.0.0",
+        "tauri-plugin-mobile-sharetarget-api": "^2.0.0",
         "vue": "^3.5.13",
         "vue-router": "4",
         "vue-sonner": "^2.0.9",
@@ -393,6 +394,8 @@
     "tapable": ["tapable@2.3.0", "", {}, "sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg=="],
 
     "tauri-plugin-android-fs-api": ["tauri-plugin-android-fs-api@24.0.0", "", { "dependencies": { "@tauri-apps/api": "^2.0.0" } }, "sha512-Na5y1cmOQIToPQytpqiyUv46E5L0MzOlLQug+QIAPfebF0c1xKkw9XmcEBxYmPCSXAmn3XlZV7mOzY610Trn4w=="],
+
+    "tauri-plugin-mobile-sharetarget-api": ["tauri-plugin-mobile-sharetarget-api@2.0.0", "", { "dependencies": { "@tauri-apps/api": "^2.0.0" } }, "sha512-zvxm12K1QYxaMEUQ9gC3uVmP9oNJ5z1k5/dw8mwqREMo1fubPqkI+JnYIL+ThJJXwyhcHP9+CouSmPwmgb89aA=="],
 
     "tinyglobby": ["tinyglobby@0.2.15", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.3" } }, "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ=="],
 
