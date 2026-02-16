@@ -27,12 +27,45 @@
       </div>
 
     <div class="w-full flex flex-col shrink-0 gap-1.5">
-      <p class="text-sm">File name:</p>
-      <input v-model="store.fileName" class="anim-all border border-base-content/20 px-4 py-3 rounded-xl" placeholder="My Custom Shortcut"/>
+      <p class="text-sm font-bold">File:</p>
+      <div class="anim-all border border-base-content/20 px-4 py-3 rounded-xl flex flex-row items-center gap-1.5">
+        <SelectRoot v-model="store.folder">
+          <SelectTrigger class="w-auto h-6 gap-1 flex flex-row items-center justify-between px-2 rounded-md border border-base-content/20 anim-all cursor-pointer text-sm">
+            <Folder :size="12" />
+            <SelectValue placeholder="Custom" class="text-xs" />
+          </SelectTrigger>
+          <SelectPortal>
+            <SelectContent class="anim-all bg-base-200 border border-base-content/20 rounded-lg overflow-hidden">
+              <SelectViewport>
+                <SelectItem
+                  value="custom"
+                  class="px-4 py-2 bg-base-200 hover:bg-base-300 anim-all cursor-pointer text-sm"
+                >
+                  <SelectItemText>Custom</SelectItemText>
+                </SelectItem>
+                <SelectItem
+                  value="steam"
+                  class="px-4 py-2 bg-base-200 hover:bg-base-300 anim-all cursor-pointer text-sm"
+                >
+                  <SelectItemText>Steam</SelectItemText>
+                </SelectItem>
+                <SelectItem
+                  value="local"
+                  class="px-4 py-2 bg-base-200 hover:bg-base-300 anim-all cursor-pointer text-sm"
+                >
+                  <SelectItemText>Local</SelectItemText>
+                </SelectItem>
+              </SelectViewport>
+            </SelectContent>
+          </SelectPortal>
+        </SelectRoot>
+        <span class="opacity-50 font-extrabold">/</span>
+        <input v-model="store.fileName" class="w-full text-xs" placeholder="My Custom Shortcut..." />
+      </div>
     </div>
 
     <div class="w-full flex flex-col shrink-0 gap-1.5">
-      <p class="text-sm">Content:</p>
+      <p class="text-sm font-bold">Content:</p>
       <textarea v-model="store.fileContent" class="font-mono placeholder:font-sans text-xs whitespace-pre overflow-y-auto anim-all border border-base-content/20 px-4 py-3 rounded-xl h-36 resize-none" placeholder="The contents of your shortcut!" />
     </div>
 
@@ -73,9 +106,12 @@
 </template>
 
 <script setup lang="ts">
-import { Star, ChevronDown } from 'lucide-vue-next'
+import { Star, ChevronDown, Folder } from 'lucide-vue-next'
 import { generateShortcut } from '~/utils/GenerateShortcut'
 import { editorStore } from '~/states/Editor'
+import { getConfig } from '~/utils/SettingsManager';
+import { sanitizeFileName } from '~/utils/GenerateShortcut';
+import { watch } from 'vue';
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -89,14 +125,25 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValue,
-  SelectViewport,
+  SelectViewport
 } from 'reka-ui'
 
 const store = editorStore()
 
-const generateLocalGameShortcut = () => {
+
+watch(
+  () => store.fileName,
+  (newValue) => {
+    store.fileName = sanitizeFileName(newValue)
+  }
+)
+
+const generateLocalGameShortcut = async () => {
   if (store.fileName === '' || store.fileContent === '' || store.fileType == undefined) return
+  const config = await getConfig()
   const fileShit = `${store.fileName}.${store.fileType}`
-  generateShortcut(fileShit, store.fileContent)
+  const path = store.folder === "steam" ? config?.steamfolder : store.folder === "local" ? config?.localfolder : undefined
+
+  generateShortcut(fileShit, store.fileContent, path)
 }
 </script>

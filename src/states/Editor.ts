@@ -3,6 +3,7 @@ import { ref, Ref } from "vue";
 import { ShortcutValidFiletypes, ShortcutTemplate } from "~/types/Editor";
 
 export const editorStore = defineStore("editor", () => {
+  const folder: Ref<"steam"|"local"|"custom"> = ref("custom")
   const fileName: Ref<string> = ref("")
   const fileContent: Ref<string> = ref("")
   const fileType: Ref<ShortcutValidFiletypes | undefined> = ref()
@@ -20,5 +21,5 @@ export const editorStore = defineStore("editor", () => {
     fileContent.value = template.content
     fileType.value = template.filetype
   }
-  return { fileName, fileContent, fileType, steamTemplates, templates, applyTemplate };
+  return { folder, fileName, fileContent, fileType, steamTemplates, templates, applyTemplate };
 });

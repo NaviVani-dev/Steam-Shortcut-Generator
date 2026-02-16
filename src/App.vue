@@ -38,7 +38,7 @@ async function getIntentShortcut() {
       if (match) {
         // we cant get the correct name from the URL, so we search it with the api lol
         const gameData = await searchGame(match[1])
-        if (gameData) {
+        if (gameData && gameData[0].name) {
           bStore.selectedItemId = match[1]
           bStore.selectedItemName = gameData[0].name
           bStore.openDialog = true

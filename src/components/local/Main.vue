@@ -28,10 +28,18 @@
 import { Gamepad2, IdCard } from 'lucide-vue-next'
 import { generateShortcut } from '~/utils/GenerateShortcut'
 import { getConfig } from '~/utils/SettingsManager';
-import { ref, Ref } from 'vue'
+import { sanitizeFileName } from '~/utils/GenerateShortcut';
+import { ref, Ref, watch } from 'vue'
 
 const gameName: Ref<string> = ref('')
 const gameId: Ref<string> = ref('')
+
+watch(
+  () => gameName.value,
+  (newValue) => {
+    gameName.value = sanitizeFileName(newValue)
+  }
+)
 
 const generateLocalGameShortcut = async () => {
   if (gameName.value === '' || gameId.value === '') return

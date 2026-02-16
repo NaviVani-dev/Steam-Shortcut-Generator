@@ -24,7 +24,7 @@
                   class="px-4 py-2 bg-base-200 hover:bg-base-300 anim-all cursor-pointer text-sm"
                 >
                   <SelectItemText>
-                    .{{template.name}}
+                    {{template.name}}
                   </SelectItemText>
                 </SelectItem>
               </SelectViewport>

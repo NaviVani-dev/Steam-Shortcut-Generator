@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { browserStore } from '~/states/Browser';
-import { fetch } from "@tauri-apps/plugin-http";
 import {ref, Ref, watch} from 'vue'
 import { X } from 'lucide-vue-next'
 import { generateShortcut } from '~/utils/GenerateShortcut'
