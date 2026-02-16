@@ -27,28 +27,26 @@ async function getIntentShortcut() {
     const decoded = decodeURIComponent(potentialIntent)
     console.log("user shared:", decoded)
     const url = new URL(decoded)
+    let appId:string|undefined
     if (url.hostname === "steamdb.info") {
       const match = url.pathname.match(/^\/app\/(\d+)/)
-      if (match) {
-        store.sharedAppId = match[1]
-        store.sharedDialogOpen = true
-      }
+      if (match) appId = match[1]
     } else if (url.hostname === "store.steampowered.com") {
       const match = url.pathname.match(/^\/app\/(\d+)/)
-      if (match) {
-        // we cant get the correct name from the URL, so we search it with the api lol
-        const gameData = await searchGame(match[1])
-        if (gameData && gameData[0].name) {
-          bStore.selectedItemId = match[1]
-          bStore.selectedItemName = gameData[0].name
-          bStore.openDialog = true
-        } else {
-          store.sharedAppId = match[1]
-          store.sharedDialogOpen = true
-        }
-      }
-    } else {
+      if (match) appId = match[1]
+    }
+    if (!appId) {
       toast.error("This URL is not supported!")
+      return
+    }
+    const gameData = await searchGame(appId)
+    if (gameData && gameData[0] && gameData[0].name) {
+      bStore.selectedItemId = appId
+      bStore.selectedItemName = gameData[0].name
+      bStore.openDialog = true
+    } else {
+      store.sharedAppId = appId
+      store.sharedDialogOpen = true
     }
   } catch (e) {
     toast.error("An error ocurred trying to read the shared URL")
