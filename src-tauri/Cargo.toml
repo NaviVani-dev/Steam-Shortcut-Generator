@@ -1,6 +1,6 @@
 [package]
 name = "steam-shortcut-generator"
-version = "1.2.0"
+version = "1.2.1"
 description = "App that generates Steam shortcuts for Android Frontends "
 authors = ["NaviVani"]
 edition = "2024"
