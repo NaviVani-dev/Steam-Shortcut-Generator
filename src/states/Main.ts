@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref, Ref } from "vue";
 
 export const mainStore = defineStore("main", () => {
-  const activeTab: Ref<"library"|"steam"|"local"|"editor"|"settings"> = ref("library")
-  return { activeTab };
+  const sharedDialogOpen: Ref<boolean> = ref(false)
+  const sharedAppId: Ref<string|undefined> = ref()
+  return { sharedDialogOpen, sharedAppId };
 });

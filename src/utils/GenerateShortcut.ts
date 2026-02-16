@@ -6,13 +6,23 @@ import { AndroidFs, AndroidFsUri } from "tauri-plugin-android-fs-api";
 import { path as p } from "@tauri-apps/api";
 import { libraryStore } from "~/states/Library";
 
+
+export function sanitizeFileName(name: string): string {
+  return name
+    .replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
+    .replace(/[. ]+$/, "")
+    .trim()
+    .slice(0, 180)
+}
+
 export const generateShortcut = async (filename: string, content: string, path?: string | AndroidFsUri) => {
   try {
+    const cleanFilename = sanitizeFileName(filename)
     if (!path) {
       //if theres no path set, it will default to the old code
       const path = await save({
         filters: [{ name: "Game Shortcut", extensions: ['.steam', 'steamappid', '.localgameid']}],
-        defaultPath: filename,
+        defaultPath: cleanFilename,
       });
       if (!path) return false;
       await writeTextFile(path, content);
@@ -20,13 +30,13 @@ export const generateShortcut = async (filename: string, content: string, path?:
     } else{
       if (platform() == "android") {
         if (typeof path == "string") return
-        const uri = await AndroidFs.createNewFile(path!, filename, null)
+        const uri = await AndroidFs.createNewFile(path!, cleanFilename, null)
         const file = await AndroidFs.getFsPath(uri)
         await writeTextFile(file,content)
         await writeTextFile(file,content)
       } else {
         if (typeof path != "string") return
-        const file = await p.join(path, filename)
+        const file = await p.join(path, cleanFilename)
         await writeTextFile(file, content)
         await writeTextFile(file,content)
       }

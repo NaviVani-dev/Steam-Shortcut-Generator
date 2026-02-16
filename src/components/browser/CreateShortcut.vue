@@ -5,7 +5,7 @@
         <DialogOverlay class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity" />
       </Transition>
       <Transition name="scale">
-        <DialogContent class="fixed left-[50%] top-[50%] z-50 w-[96%] max-w-lg translate-x-[-50%] translate-y-[-50%] rounded-xl border border-base-content/20 bg-base-200 p-6 shadow-2xl focus:outline-none">
+        <DialogContent class="dialog-card">
           <DialogClose class="p-1.5 border border-base-content/20 bg-base-200 hover:bg-base-300 active:bg-base-200 active:scale-95 rounded-lg fixed top-5 right-5 cursor-pointer" ><X :size="14"/></DialogClose>
           <DialogTitle>{{store.selectedItemName}}</DialogTitle>
           <DialogDescription v-if="gameData?.strDescription" class="text-xs text-base-content/50 pb-2">{{ gameData.strDescription }}</DialogDescription>
@@ -40,6 +40,7 @@ import { X } from 'lucide-vue-next'
 import { generateShortcut } from '~/utils/GenerateShortcut'
 import { getConfig } from '~/utils/SettingsManager';
 import { SteamGameDetails } from '~/types/GameDetails';
+import { fetchGameData } from '~/utils/SteamApi';
 import {
   DialogClose,
   DialogContent,
@@ -57,7 +58,7 @@ const imagesBaseUrl = `https://shared.fastly.steamstatic.com/store_item_assets/s
 
 watch(() => store.openDialog, ()=> {
   if (store.openDialog && store.selectedItemId) {
-    fetchGameData()
+    fetchData()
   }
 })
 
@@ -72,37 +73,10 @@ const generateSteamappidFile = async (forceType?: "steamappid"|"steam") => {
   if (everythingOk) store.openDialog = false
 }
 
-const fetchGameData = async () => {
+const fetchData = async () => {
   if (store.selectedItemId === null) return
   gameData.value = undefined
-  const fetchUrl = `https://store.steampowered.com/apphoverpublic/${store.selectedItemId}/?l=english&json=1`
-  const response = await fetch(fetchUrl, {
-    method: 'GET',
-  });
-  if (response.status === 200) {
-    gameData.value = await response.json()
-  }
+  const data = await fetchGameData(store.selectedItemId)
+  if (data) gameData.value = data
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.scale-enter-active,
-.scale-leave-active {
-  transition: all 0.2s ease;
-}
-
-.scale-enter-from,
-.scale-leave-to {
-  transform: scale(0);
-}
-</style>

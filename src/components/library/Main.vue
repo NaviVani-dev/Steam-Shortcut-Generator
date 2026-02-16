@@ -16,13 +16,13 @@
         <p class="text-sm text-base-content/50 text-center">Try getting some shortcuts or scanning your files.</p>
         <div class="h-4" />
         <button
-          @click="store.activeTab = 'steam'"
+          @click="$router.push('/browser')"
           class="flex flex-row items-center justify-center gap-1 text-sm py-1 px-2 rounded-xl border border-base-content/20 w-full max-w-42"
         >
           <SteamIcon />Add Steam Games
         </button>
         <button
-          @click="store.activeTab = 'settings'"
+          @click="$router.push('/settings')"
           class="flex flex-row items-center justify-center gap-1 text-sm py-1 px-2 rounded-xl border border-base-content/20 w-full max-w-42 mt-2"
         >
           <Folder :size="14" />Add a folder
@@ -38,9 +38,7 @@ import { libraryStore } from '~/states/Library';
 import { onMounted } from 'vue'
 import { RotateCcw, ExternalLink, Folder } from 'lucide-vue-next'
 import SteamIcon from '~/components/shared/SteamIcon.vue';
-import { mainStore } from '~/states/Main';
 
-const store = mainStore()
 const lib = libraryStore()
 
 onMounted(lib.refreshLibrary)

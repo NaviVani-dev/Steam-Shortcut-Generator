@@ -16,8 +16,7 @@
        </AvatarFallback>
        <p class="text-[10px] bg-accent text-accent-content border border-base-content/20 px-2 rounded-full font-bold absolute -bottom-1 -right-1" v-if="isOnLibrary">IN LIBRARY</p>
      </AvatarRoot>
-    <p class="truncate text-center sm:text-start">{{gameName}}</p>
-
+    <p class="truncate text-center sm:text-start w-full">{{gameName}}</p>
   </button>
 </template>
 

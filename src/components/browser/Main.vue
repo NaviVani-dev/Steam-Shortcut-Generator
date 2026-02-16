@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import { Search, Gamepad2, Bug } from "lucide-vue-next"
-import { fetch } from "@tauri-apps/plugin-http";
 import SearchResult from "~/components/browser/SearchResult.vue";
-import CreateDialog from "~/components/browser/CreateShortcut.vue";
 import { SteamSearchResult } from "~/types/SearchResults";
 import { libraryStore } from "~/states/Library";
+import { searchGame } from "~/utils/SteamApi";
 
 const searchTerm: Ref<string> = ref("")
 const searchResults: Ref<SteamSearchResult[]> = ref([])
@@ -19,14 +18,8 @@ const fetchSearchResults = async () => {
     searchResults.value = []
     isSearching.value = true
     errorState.value = false
-
-    const fetchUrl = `https://store.steampowered.com/search/suggest?cc=US&l=english&realm=1&origin=https:%2F%2Fstore.steampowered.com&f=jsonfull&term=${searchTerm.value}`
-    const response = await fetch(fetchUrl, {
-      method: 'GET',
-    });
-    if (response.status === 200) {
-      searchResults.value = await response.json()
-    }
+    const gameData = await searchGame(searchTerm.value)
+    if (gameData) searchResults.value = gameData
   } catch (e) {
     console.log(e)
     errorState.value = true
@@ -37,9 +30,9 @@ const fetchSearchResults = async () => {
 </script>
 
 <template>
-  <main class="flex h-full w-full flex-col gap-2 items-center">
-    <div class="w-full max-w-182 flex flex-col flex-1 gap-2 overflow-y-scroll overflow-x-hidden bg-base-200 p-2 rounded-xl border border-base-content/20">
-      <label class="w-full transition-all duration-100 ease-in-out flex flex-row border border-base-content/20 px-4 bg-base-200 py-3 rounded-xl gap-2 sticky top-0">
+  <main class="flex h-full w-full flex-col gap-2 items-center min-h-0">
+    <div class="w-full min-h-0 max-w-182 flex flex-col flex-1 gap-2 overflow-y-scroll overflow-x-hidden bg-base-200 p-2 rounded-xl border border-base-content/20">
+      <label class="z-1 w-full transition-all duration-100 ease-in-out flex flex-row border border-base-content/20 px-4 bg-base-200 py-3 rounded-xl gap-2 sticky top-0">
         <Search class="opacity-50" />
         <input @keyup.enter="fetchSearchResults" v-model="searchTerm" type="search" class="grow focus:outline-none" placeholder="Search for a Steam game..."/>
       </label>
@@ -61,6 +54,5 @@ const fetchSearchResults = async () => {
       </div>
       <div class="animate-pulse bg-base-300 rounded-xl h-20 w-full shrink-0" v-for="_i in 5" v-if="isSearching" />
     </div>
-    <CreateDialog />
   </main>
 </template>
