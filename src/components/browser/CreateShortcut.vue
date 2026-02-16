@@ -7,7 +7,7 @@
       <Transition name="scale">
         <DialogContent class="dialog-card">
           <DialogClose class="p-1.5 border border-base-content/20 bg-base-200 hover:bg-base-300 active:bg-base-200 active:scale-95 rounded-lg fixed top-5 right-5 cursor-pointer" ><X :size="14"/></DialogClose>
-          <DialogTitle>{{store.selectedItemName}}</DialogTitle>
+          <DialogTitle>{{store.selectedItemName ?? ""}}</DialogTitle>
           <DialogDescription v-if="gameData?.strDescription" class="text-xs text-base-content/50 pb-2">{{ gameData.strDescription }}</DialogDescription>
           <div v-if="gameData" class="flex fl ex-row gap-2 w-full rounded-md overflow-x-scroll px-4 pb-4">
               <img

@@ -1,5 +1,5 @@
 <template>
-  <main class="flex h-full w-full flex-col items-center justify-center">
+  <main class="flex h-full w-full flex-col items-center justify-center min-h-0">
     <div class="w-full max-w-182 flex flex-col gap-2 p-6 bg-base-200 rounded-xl border border-base-content/20 relative overflow-x-scroll">
 
       <DropdownMenuRoot>
