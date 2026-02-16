@@ -10,14 +10,12 @@ import { libraryStore } from "~/states/Library";
 export function sanitizeFileName(name: string): string {
   return name
     .replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
-    .replace(/[. ]+$/, "")
-    .trim()
     .slice(0, 180)
 }
 
 export const generateShortcut = async (filename: string, content: string, path?: string | AndroidFsUri) => {
   try {
-    const cleanFilename = sanitizeFileName(filename)
+    const cleanFilename = sanitizeFileName(filename).trim()
     if (!path) {
       //if theres no path set, it will default to the old code
       const path = await save({
