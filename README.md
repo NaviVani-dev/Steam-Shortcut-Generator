@@ -24,6 +24,14 @@ Steam Shortcut Generator allows you to search for your Steam games to create a s
 - Click "Generate Shortcut"
 - Select the folder where you would like to save the shortcut.
 
+### Sharing Games
+Steam Shortcut Generator supports creating shortcuts by using Android's Share menu.
+This can be usefull in case your game has been delisted from Steam or you prefer to use the Android Steam app.
+- Open [Steam](https://store.steampowered.com/) or [SteamDB](https://steamdb.info/) and search for your game.
+- After opening the game page, click the share button on your browser or used app.
+- Select **Steam Shortcut Generator**.
+- Generate your shortcut!
+
 ## Building
 To build this app you will need `npm` or `bun` (recommended).
 
